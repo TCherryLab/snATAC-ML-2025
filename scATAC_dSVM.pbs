@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -P 19833a08-f6fb-4bea-8526-8a79069da878
+#PBS -q cdbrmq
+#PBS -M leah.vandenbosch@seattlechildrens.org
+#PBS -j oe
+#PBS -m abe
+#PBS -o scATAC_dsvm_log
+#PBS -l mem=80gb,ncpus=4
+
+for vocab in /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/11mers/all_11mers*
+do
+	NAME=`basename ${vocab%_.txt}`
+	perl /active/cherry_t/Leah/Resources/deltasvm_script/deltasvm.pl /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/orig_summits/ext/outgroup/Mega_Outgroup_WT.fa /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/orig_summits/ext/outgroup/Mega_Outgroup_mutated.fa $vocab /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/deltasvm/dSVM_${NAME}_MegaOutgroup.txt
+done
+
+exit

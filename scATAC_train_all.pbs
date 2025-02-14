@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -P 19833a08-f6fb-4bea-8526-8a79069da878
+#PBS -q cdbrmq
+#PBS -M leah.vandenbosch@seattlechildrens.org
+#PBS -j oe
+#PBS -m abe
+#PBS -o scATAC_train_all_log
+#PBS -l mem=80gb,ncpus=4
+
+
+for f in /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/orig_summits/ext/traindata/human.*.fa
+do
+	NAME=`basename ${f%.fa} | sed 's/human.//g'`
+	#/home/lvand1/git/lsgkm/bin/gkmtrain -l 11 -k 7 -d 3 -t 2 -e 0.005 -m 20000 -T 4 $f /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/orig_summits/ext/traindata/negatives/Negative_${NAME}.fa /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/models/${NAME}
+	/home/lvand1/git/lsgkm/bin/gkmtrain -x 5 -l 11 -k 7 -d 3 -t 2 -e 0.005 -m 20000 -T 4 $f /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/orig_summits/ext/traindata/negatives/Negative_${NAME}.fa /active/cherry_t/Leah/Analyses/gkm_svm/scATAC/cross_validation/${NAME}
+done
+
+exit
